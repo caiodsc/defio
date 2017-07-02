@@ -10,6 +10,10 @@ import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabaseModule} from "angularfire2/database/database.module";
 import {AngularFireAuth} from "angularfire2/auth/auth";
 import {AngularFireAuthModule} from "angularfire2/auth/auth.module";
+import {RouterModule} from "@angular/router";
+import { HomeComponent } from './home/home.component';
+import {routerConfig} from "./router.config";
+import { DesafiosComponent } from './desafios/desafios.component';
 
 var firebaseConfig = {
   apiKey: "AIzaSyCjrJ-g5KW3khx1XbT8C5Ku59H0xpP_r58",
@@ -23,12 +27,15 @@ var firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent,
+    DesafiosComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    RouterModule.forRoot(routerConfig),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule

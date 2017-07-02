@@ -3,6 +3,7 @@ import {NgForm} from "@angular/forms";
 import {AuthService} from "../shared/security/auth.service";
 import {AuthInfo} from "../shared/security/auth-info";
 import {AngularFireDatabase} from "angularfire2/database/database";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,6 @@ import {AngularFireDatabase} from "angularfire2/database/database";
 export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService, private db: AngularFireDatabase) { }
-  nick: string = '';
   erroRegister = false;
   erroRegisterMsg = '';
   erroLogin = false;
@@ -20,29 +20,38 @@ export class HeaderComponent implements OnInit {
   spinnerRS = false;
   authInfo: AuthInfo;
   finishedRS = false;
-  user: any;
+  user = {
+    nome: '',
+    image: ''
+  };
   ngOnInit() {
     this.authService.authInfo$.subscribe(authInfo => this.authInfo = authInfo);
-
   }
 
   onSignUp(form: NgForm){
     const nameR = form.value.nameR;
-    this.nick = nameR.split(' ')[0];
     const emailR = form.value.emailR;
+    const formR = form;
     const passwordR = form.value.passwordR;
     this.erroRegister = false;
     this.spinnerRS = true;
     this.authService.signUp(emailR, passwordR).subscribe(
       ()=>{
          document.getElementById('closeR').click();
-         this.showSnack('Register');
+         this.user['nome'] = nameR;
+         this.user['image'] = 'assets/icones/unknown3x.png';
+         this.finishedRS = true;
+         setTimeout(()=>{
+           this.showSnack('Register');
+         }, 500);
+         this.afterRegister();
       }, err=>{
         this.spinnerRS = false;
         this.erroRegisterMsg = err;
         this.erroRegister = true;
       }
     );
+
 
   }
 
@@ -69,9 +78,8 @@ export class HeaderComponent implements OnInit {
       x.className = "show";
       that.spinnerRS = false;
     },500);
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3500);
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3400);
   }
-
   afterLogin(){
     //console.log(this.authInfo.$uid);
     this.db.object('Usuarios/' + this.authInfo.$uid)
@@ -90,9 +98,19 @@ export class HeaderComponent implements OnInit {
         }
       );
   }
+
+
+  afterRegister(){
+    const usuario$ = this.db.object('Usuarios/' + this.authInfo.$uid);
+    usuario$.set(this.user).then(
+      ()=> console.log('Push done', this.authInfo.$uid),
+      console.error
+    );
+  }
   logout(){
     this.authService.logOut();
     this.finishedRS = false;
     this.showSnack('Logout');
   }
 }
+
