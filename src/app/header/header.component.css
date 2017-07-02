@@ -1,0 +1,88 @@
+.modal-dialog {
+}
+
+input{
+  min-height: 40px;
+}
+
+a{
+  cursor: pointer;
+}
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+
+
+#snackbarRegister, #snackbarLogin, #snackbarLogout {
+  position: absolute;
+  right: 0px;
+  top:0px;
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #373737;
+  color: #ebebeb;
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px;
+  z-index: 999999;
+  font-size: 17px;
+  display: none;
+}
+
+#snackbarRegister.show, #snackbarLogin, #snackbarLogout {
+  visibility: visible;
+  -webkit-animation: fadein .5s, fadeout 1s 2s;
+  animation: fadein .5s, fadeout 1s 2s;
+}
+
+@-webkit-keyframes fadein {
+  from {top: 0px; opacity: 0;}
+  to {top: 0px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {top: 0px; opacity: 0;}
+  to {top: 0px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 0px; opacity: 1;}
+  to {top: -15px; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {top: 0px; opacity: 1;}
+  to {top: -15px; opacity: 0;}
+}
+
+.circle-image{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  display:block;
+  background-position:50%;
+
+}
+
+#dropAcc {
+  display: -webkit-flex; /* Safari */
+  -webkit-align-items: center; /* Safari 7.0+ */
+  display: flex;
+  align-items: center;
+}

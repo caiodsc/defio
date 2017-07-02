@@ -1,0 +1,165 @@
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img style="position: absolute; top: 11px;" src="assets/logos/logo-small.png">
+      </a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a style="margin-left: 20px; color: white; font-size: 18px;" class="navbar-brand" href="#">Defio</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active" style="font-size: 16px;"><a>  Home  </a></li>
+        <li><a  style="font-size: 16px;">  Desafios  </a></li>
+
+        <li class="dropdown">
+          <a href="#"  style="font-size: 16px;" class="dropdown-toggle"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">  Mais  <span style="margin-left: 10px;" class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Eventos</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Fale conosco</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Sobre o Defio</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form *ngIf="1==2" class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right" style="position: relative">
+        <li *ngIf="!finishedRS"><a style="font-size: 16px;" href="#" data-toggle="modal" data-target="#myModal">Acessar</a></li>
+        <li *ngIf="!finishedRS"><a style="font-size: 16px;" href="#" data-toggle="modal" data-target="#myModal2">Cadastre-se</a></li>
+        <li *ngIf="finishedRS" class="dropdown">
+          <a id="dropAcc"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <div style="margin-left: 40px; font-size: 16px;">{{user?.nome}}</div>
+            <span style="margin-left: 10px;" class="caret"></span>
+            <img class="circle-image" style="max-height: 32px; max-width: 32px; position: absolute" src="{{user?.image}}">
+          </a>
+          <ul class="dropdown-menu" style="width: 100%">
+            <li><a href="#">Minha conta</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Meus desafios</a></li>
+            <li><a href="#">Mensagens (3)</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a (click)="logout()">Sair</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Faça login no Defio!</h3>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="onSignIn(s)" #s="ngForm">
+        <div class="form-group">
+          <label for="emailS" class="sr-only">Email address</label>
+          <input type="email" id="emailS" name="emailS" class="form-control" placeholder="E-mail" required="" autofocus="" ngModel>
+        </div>
+        <div class="form-group">
+          <label for="passwordS" class="sr-only">Password</label>
+          <input type="password" id="passwordS" name="passwordS" class="form-control" placeholder="Senha" required="" ngModel>
+        </div>
+        <button *ngIf="!spinnerRS" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <button *ngIf="spinnerRS" class="btn btn-lg btn-primary btn-block" type="submit"><i style="display: inline-block" class="fa fa-spinner fa-spin"></i>  Carregando</button>
+          <button id="closeS" style="position: absolute; visibility: hidden; height: 0px; width: 0px;" data-dismiss="modal">Close</button>
+        </form>
+        <div *ngIf="erroLogin" style="text-align: center">
+          <br>
+          <div style="display: inline-block; font-size: 14px; color: #cd0000">{{erroLoginMsg}}</div>
+        </div>
+        <br>
+        <div style="text-align: center">
+          <div style="display: inline-block; font-size: 12px">Ao inscrever-se, você concorda com nossos <a>Termos de uso</a> e nossa <a>Política de privacidade</a>.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div style="text-align: center">
+          <div style="display: inline-block;">Não tem uma conta? <a>Cadastre-se</a></div>
+        </div>
+       <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+    </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div class="modal fade" id="myModal2" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Inscreva-se e comece os desafios!</h3>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="onSignUp(r)" #r="ngForm">
+          <div class="form-group">
+          <label for="nameR" class="sr-only">Name</label>
+          <input type="text" id="nameR" name="nameR" class="form-control" placeholder="Nome" required="" autofocus="" ngModel>
+          </div>
+          <div class="form-group">
+            <label for="emailR" class="sr-only">Email address</label>
+            <input type="email" id="emailR" name="emailR" class="form-control" placeholder="E-mail" required="" autofocus="" ngModel>
+          </div>
+          <div class="form-group">
+            <label for="passwordR" class="sr-only">Password</label>
+            <input type="password" id="passwordR" name="passwordR" class="form-control" placeholder="Senha" required="" ngModel>
+          </div>
+          <button *ngIf="!spinnerRS" class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
+          <button *ngIf="spinnerRS" class="btn btn-lg btn-primary btn-block" type="submit"><i style="display: inline-block" class="fa fa-spinner fa-spin"></i>  Carregando</button>
+          <button id="closeR" style="position: absolute; visibility: hidden; height: 0px; width: 0px;" data-dismiss="modal">Close</button>
+        </form>
+        <div *ngIf="erroRegister" style="text-align: center">
+          <br>
+          <div style="display: inline-block; font-size: 14px; color: #cd0000">{{erroRegisterMsg}}</div>
+        </div>
+      <br>
+        <div style="text-align: center">
+          <div style="display: inline-block; font-size: 12px">Ao inscrever-se, você concorda com nossos <a>Termos de uso</a> e nossa <a>Política de privacidade</a>.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div style="text-align: center">
+          <div style="display: inline-block;">Já tem uma conta? <a>Acessar</a>.</div>
+        </div>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div style="position: relative; right: 2%">
+  <div id="snackbarLogin" style="font-size: 14px">Bem vindo de volta, <b>{{user?.nome}}</b>!</div>
+  <div id="snackbarRegister" style="font-size: 14px">Bem vindo ao Defio, <b>{{user?.nome}}</b>!</div>
+  <div id="snackbarLogout" style="font-size: 14px">Logout feito com sucesso!</div>
+</div>
+
+
