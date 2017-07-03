@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
     this.authService.authInfo$.subscribe(authInfo => this.authInfo = authInfo);
   }
 
+
   onSignUp(form: NgForm){
     const nameR = form.value.nameR;
     const emailR = form.value.emailR;
@@ -78,7 +79,7 @@ export class HeaderComponent implements OnInit {
       x.className = "show";
       that.spinnerRS = false;
     },500);
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3400);
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3500);
   }
   afterLogin(){
     //console.log(this.authInfo.$uid);
